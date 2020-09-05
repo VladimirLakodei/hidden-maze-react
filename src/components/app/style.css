@@ -1,0 +1,17 @@
+html, body, div, p, h1, h2, h3, h4, h5, h6, a, span, img, ol, ul, li, form, input {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	background: #fff;
+	font: normal 16px Arial, sans-serif;
+	color: #000;
+}
+
+.container {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 20px;
+}
