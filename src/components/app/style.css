@@ -10,6 +10,16 @@ body {
 	color: #000;
 }
 
+.section {
+  margin: 20px 0;
+}
+
+.section__title {
+  margin: 20px 0;
+  font-size: 36px;
+  text-align: center;
+}
+
 .container {
 	max-width: 1200px;
 	margin: 0 auto;

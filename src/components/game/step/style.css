@@ -1,0 +1,6 @@
+.step {
+  width: calc(12vh - 10px);
+  height: calc(12vh - 10px);
+  margin: 5px;
+  background: #5462d3;
+}

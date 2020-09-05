@@ -1,0 +1,4 @@
+.steps {
+    display: flex;
+    flex-wrap: wrap;
+}
