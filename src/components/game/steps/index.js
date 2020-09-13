@@ -1,14 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './style.css';
 
 import Step from '../step';
 
-class Steps extends Component {
-  state = {
-    steps: [],
-  };
-
-  createSteps(number) {
+const Steps = (props) => {
+  const createSteps = (number) => {
     let count = 0;
     const steps = new Array(number);
 
@@ -18,26 +14,20 @@ class Steps extends Component {
       };
     }
 
-    this.setState({ steps });
+    return steps;
   }
 
-  componentDidMount() {
-    this.createSteps(this.props.number);
-  }
-
-  render() {
-    const { steps } = this.state;
+  const steps = createSteps(props.number);
     
-    const content = steps.map((item) => {
-      return <Step key={item.id} />;
-    });
+  const content = steps.map((item) => {
+    return <Step key={item.id} />;
+  });
 
-    return (
-      <div className="steps">
-        { content }
-      </div>
-    );
-  }
+  return (
+    <div className="steps">
+      { content }
+    </div>
+  );
 }
 
 export default Steps;

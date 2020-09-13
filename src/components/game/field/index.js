@@ -1,14 +1,12 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect  } from 'react';
 import './style.css';
 
 import Cell from '../cell';
 
-class Field extends Component {
-  state = {
-    field: [],
-  };
+const Field = (props) => {
+  const [field, updateField] = useState([]);
 
-  createField(size) {
+  const createField = (size) => {
     const field = new Array(size);
 
     let count = 0;
@@ -25,36 +23,28 @@ class Field extends Component {
       field[i] = row;
     }
 
-    this.setState({ field });
+    updateField( field );
   }
 
-  update() {
-    
-  }
+  useEffect(() => {
+    createField(props.size);
+    return () => {
+      console.log('unmount');
+    }
+  }, [props.size]);
 
-  componentDidMount() {
-    this.createField(this.props.size);
-  }
-
-  componentDidUpdate(prevProps) {
-    
-  }
-  
-  render() {
-    const { field } = this.state;
-
-    const content = field.map((row) => {
-      return row.map((item) => {
-        return (<Cell key={item.id} />)
-      });
-    });
-
-    return (
-      <div className="field">
-        {content}
-      </div>
-    );
-  }
+  return <Content field={ field } />
 }
 
+const Content = ({ field }) =>
+    <div className="field">
+
+      {field.map((row) =>
+        row.map((item) =>
+          <Cell key={item.id} />
+        )
+      )}
+    
+    </div>
+  
 export default Field;
