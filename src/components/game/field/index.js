@@ -1,50 +1,18 @@
-import React, { useState, useEffect  } from 'react';
+import React from 'react';
 import './style.css';
 
 import Cell from '../cell';
 
 const Field = (props) => {
-  const [field, updateField] = useState([]);
-
-  const createField = (size) => {
-    const field = new Array(size);
-
-    let count = 0;
-
-    for (let i = 0; i < field.length; i++) {
-      const row = new Array(size);
-
-      for (let i = 0; i < field.length; i++) {
-        row[i] = {
-          id: count++,
-        };
-      }
-
-      field[i] = row;
-    }
-
-    updateField( field );
-  }
-
-  useEffect(() => {
-    createField(props.size);
-    return () => {
-      console.log('unmount');
-    }
-  }, [props.size]);
-
-  return <Content field={ field } />
-}
-
-const Content = ({ field }) =>
+  return (
     <div className="field">
-
-      {field.map((row) =>
+      {props.data.map((row) =>
         row.map((item) =>
-          <Cell key={item.id} />
+          <Cell key={item.id} value={item.marker} />
         )
       )}
-    
     </div>
-  
+  )
+}
+
 export default Field;

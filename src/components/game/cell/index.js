@@ -1,9 +1,9 @@
 import React from 'react';
 import './style.css';
 
-const Cell = () => {
+const Cell = (props) => {
   return (
-    <button className="cell"></button>
+    <button className="cell">{props.value}</button>
   );
 }
 

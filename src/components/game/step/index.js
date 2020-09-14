@@ -1,8 +1,8 @@
 import React from 'react';
 import './style.css';
 
-const Step = () => {
-  return (<div className="step"></div>);
+const Step = (props) => {
+  return (<div className="step">{props.stepDirection}</div>);
 }
 
 export default Step;
