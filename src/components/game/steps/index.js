@@ -15,10 +15,14 @@ const Steps = (props) => {
   const isDirection = data[0]?.direction;
 
   useEffect(() => {
-    if (data[0].direction) {
+    if (isDirection) {
       const directions = data.map(item => item.direction&& item.direction);
 
       setDirections(directions);
+    } else {
+      setDirections([]);
+      setSteps([...data]);
+      setStepNumber(0);
     }
 
   }, [data, isDirection]);

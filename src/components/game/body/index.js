@@ -77,6 +77,14 @@ const Body = () => {
     });
   }
 
+  const restartGame = () => {
+    setIsGameFinished(() => false);
+    setIsFinishShowSteps(() => false);
+
+    setField(() => createField(fieldSize));
+    setSteps(() => createSteps(stepsNumber));
+  }
+
   function findStartPosition(fieldSize) {
     const x = getRandomInt(0, fieldSize - 1);
     const y = getRandomInt(0, fieldSize - 1);
@@ -172,13 +180,14 @@ const Body = () => {
     }
   }
 
-  const onFinishShowSteps = (value) => {
+  const onFinishShowSteps = () => {
     setIsFinishShowSteps(true);
   }
 
   return (
     <div className="game-body">
-      <button onClick={startGame}>Start</button>
+      <button onClick={startGame} disabled={isGameFinished}>Start</button>
+      <button onClick={restartGame} disabled={!isGameFinished}>Restart</button>
       <Field
         data={field}
         positionStart={positionStart}
