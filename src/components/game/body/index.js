@@ -45,6 +45,7 @@ const Body = () => {
   const [steps, setSteps] = useState(() => createSteps(stepsNumber));
   const [positionStart, setPositionStart] = useState({x: 0, y: 0});
   const [positionFinish, setPositionFinish] = useState({x: 0, y: 0});
+  const [isFinishShowSteps, setIsFinishShowSteps] = useState(false);
 
   function getRandomInt(min, max) {
     min = Math.ceil(min);
@@ -159,18 +160,24 @@ const Body = () => {
   }
 
   const onChoseCell = (value) => {
-    if (value === 'finish') {
-      alert('You win!');
-    } else {
-      alert('You lose!');
+    if (isFinishShowSteps) {
+      if (value === 'finish') {
+        alert('You win!');
+      } else {
+        alert('You lose!');
+      }
     }
+  }
+
+  const onFinishShowSteps = (value) => {
+    setIsFinishShowSteps(true);
   }
 
   return (
     <div className="game-body">
       <button onClick={startGame}>Start</button>
       <Field data={field} positionStart={positionStart} positionFinish={positionFinish} onChoseCell={onChoseCell} />
-      <Steps data={steps} number={stepsNumber} />
+      <Steps data={steps} number={stepsNumber} onFinishShowSteps={onFinishShowSteps} />
     </div>
   )
 }

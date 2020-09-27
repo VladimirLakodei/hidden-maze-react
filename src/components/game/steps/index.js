@@ -4,7 +4,7 @@ import './style.css';
 import Step from '../step';
 
 const Steps = (props) => {
-  const {data} = props;
+  const {data, onFinishShowSteps} = props;
 
   const [steps, setSteps] = useState(() => [...data]);
   const [directions, setDirections] = useState([]);
@@ -33,9 +33,11 @@ const Steps = (props) => {
 
   useEffect(() => {
     if (directions.length > 0 &&
-        stepNumber < props.data.length &&
-        props.data[stepNumber].direction) {
+        stepNumber < data.length &&
+        data[stepNumber].direction) {
       runTimeout();
+    } else if (stepNumber === data.length) {
+      onFinishShowSteps();
     }
 
     return () => {
