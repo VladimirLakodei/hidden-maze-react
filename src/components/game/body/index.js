@@ -47,6 +47,7 @@ const Body = () => {
   const [positionFinish, setPositionFinish] = useState({x: 0, y: 0});
   const [isFinishShowSteps, setIsFinishShowSteps] = useState(false);
   const [isGameFinished, setIsGameFinished] = useState(false);
+  const [isGameStarted, setIsGameStarted] = useState(false);
 
   function getRandomInt(min, max) {
     min = Math.ceil(min);
@@ -75,11 +76,14 @@ const Body = () => {
 
       return field;
     });
+
+    setIsGameStarted(true);
   }
 
   const restartGame = () => {
     setIsGameFinished(() => false);
     setIsFinishShowSteps(() => false);
+    setIsGameStarted(() => false);
 
     setField(() => createField(fieldSize));
     setSteps(() => createSteps(stepsNumber));
@@ -186,7 +190,7 @@ const Body = () => {
 
   return (
     <div className="game-body">
-      <button onClick={startGame} disabled={isGameFinished}>Start</button>
+      <button onClick={startGame} disabled={isGameFinished || isGameStarted}>Start</button>
       <button onClick={restartGame} disabled={!isGameFinished}>Restart</button>
       <Field
         data={field}
