@@ -176,7 +176,12 @@ const Body = () => {
   return (
     <div className="game-body">
       <button onClick={startGame}>Start</button>
-      <Field data={field} positionStart={positionStart} positionFinish={positionFinish} onChoseCell={onChoseCell} />
+      <Field
+        data={field}
+        positionStart={positionStart}
+        positionFinish={positionFinish}
+        onChoseCell={onChoseCell}
+        isFinishShowSteps={isFinishShowSteps} />
       <Steps data={steps} number={stepsNumber} onFinishShowSteps={onFinishShowSteps} />
     </div>
   )

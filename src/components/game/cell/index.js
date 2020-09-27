@@ -2,7 +2,7 @@ import React from 'react';
 import './style.css';
 
 const Cell = (props) => {
-  const {value, onChoseCell} = props;
+  const {value, onChoseCell, isFinishShowSteps} = props;
 
   const handlerClick = () => {
     onChoseCell(value);
@@ -10,7 +10,10 @@ const Cell = (props) => {
 
   return (
     // If in one place - overlap each other
-    <button className="cell" onClick={handlerClick}>{value}</button>
+    <button
+      className="cell"
+      onClick={handlerClick}
+      disabled={!isFinishShowSteps}>{value}</button>
   );
 }
 
