@@ -158,10 +158,18 @@ const Body = () => {
     });
   }
 
+  const onChoseCell = (value) => {
+    if (value === 'finish') {
+      alert('You win!');
+    } else {
+      alert('You lose!');
+    }
+  }
+
   return (
     <div className="game-body">
       <button onClick={startGame}>Start</button>
-      <Field data={field} positionStart={positionStart} positionFinish={positionFinish} />
+      <Field data={field} positionStart={positionStart} positionFinish={positionFinish} onChoseCell={onChoseCell} />
       <Steps data={steps} number={stepsNumber} />
     </div>
   )

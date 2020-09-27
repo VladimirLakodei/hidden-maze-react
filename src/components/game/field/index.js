@@ -4,11 +4,13 @@ import './style.css';
 import Cell from '../cell';
 
 const Field = (props) => {
+  const {data, onChoseCell} = props;
+
   return (
     <div className="field">
-      {props.data.map((row) =>
+      {data.map((row) =>
         row.map((item) =>
-          <Cell key={item.id} value={item.marker} />
+          <Cell key={item.id} value={item.marker} onChoseCell={(value) => {onChoseCell(value)}} />
         )
       )}
     </div>
