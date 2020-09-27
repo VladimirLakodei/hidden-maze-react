@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './style.css';
 
 import Field from '../field';
@@ -6,53 +6,45 @@ import Steps from '../steps';
 
 import config from '../config';
 
-const Body = () => {
-  const { fieldSize, stepsNumber } = config;
-  const [field, setField] = useState([]);
-  const [steps, setSteps] = useState([]);
-  const [positionStart, setPositionStart] = useState({x: 0, y: 0});
-  const [positionFinish, setPositionFinish] = useState({x: 0, y: 0});
+const createSteps = (number) => {
+  let count = 0;
+  const steps = new Array(number);
 
-  useEffect(() => {
-    setField(createField(fieldSize));
-  }, [fieldSize]);
-
-  useEffect(() => {
-    setSteps(createSteps(stepsNumber));
-  }, [stepsNumber]);
-
-  function createField (size) {
-    const field = new Array(size);
-
-    let count = 0;
-
-    for (let i = 0; i < field.length; i++) {
-      const row = new Array(size);
-
-      for (let i = 0; i < field.length; i++) {
-        row[i] = {
-          id: count++,
-        };
-      }
-
-      field[i] = row;
-    }
-
-    return field;
+  for (let i = 0; i < steps.length; i++) {
+    steps[i] = {
+      id: count++,
+    };
   }
 
-  function createSteps (number) {
-    let count = 0;
-    const steps = new Array(number);
+  return steps;
+}
 
-    for (let i = 0; i < steps.length; i++) {
-      steps[i] = {
+const createField = (size) => {
+  const field = new Array(size);
+
+  let count = 0;
+
+  for (let i = 0; i < field.length; i++) {
+    const row = new Array(size);
+
+    for (let i = 0; i < field.length; i++) {
+      row[i] = {
         id: count++,
       };
     }
 
-    return steps;
+    field[i] = row;
   }
+
+  return field;
+}
+
+const Body = () => {
+  const { fieldSize, stepsNumber } = config;
+  const [field, setField] = useState(() => createField(fieldSize));
+  const [steps, setSteps] = useState(() => createSteps(stepsNumber));
+  const [positionStart, setPositionStart] = useState({x: 0, y: 0});
+  const [positionFinish, setPositionFinish] = useState({x: 0, y: 0});
 
   function getRandomInt(min, max) {
     min = Math.ceil(min);
