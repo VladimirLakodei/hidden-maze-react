@@ -4,7 +4,11 @@ import './style.css';
 import Cell from '../cell';
 
 const Field = (props) => {
-  const {data, onChoseCell, isFinishShowSteps} = props;
+  const {
+    data,
+    onChoseCell,
+    isFinishShowSteps,
+    isGameFinished} = props;
 
   return (
     <div className="field">
@@ -15,6 +19,7 @@ const Field = (props) => {
             value={item.marker}
             onChoseCell={(value) => {onChoseCell(value)}}
             isFinishShowSteps={isFinishShowSteps}
+            isGameFinished={isGameFinished}
           />
         )
       )}

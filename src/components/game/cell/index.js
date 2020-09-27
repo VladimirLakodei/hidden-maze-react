@@ -2,7 +2,11 @@ import React from 'react';
 import './style.css';
 
 const Cell = (props) => {
-  const {value, onChoseCell, isFinishShowSteps} = props;
+  const {
+    value,
+    onChoseCell,
+    isFinishShowSteps,
+    isGameFinished} = props;
 
   const handlerClick = () => {
     onChoseCell(value);
@@ -13,7 +17,7 @@ const Cell = (props) => {
     <button
       className="cell"
       onClick={handlerClick}
-      disabled={!isFinishShowSteps}>{value}</button>
+      disabled={!isFinishShowSteps || isGameFinished}>{value}</button>
   );
 }
 
