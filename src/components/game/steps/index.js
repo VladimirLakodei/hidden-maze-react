@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import './style.css';
 
 import Step from '../step';
@@ -10,9 +10,21 @@ const Steps = (props) => {
   const [directions, setDirections] = useState([]);
   const [stepNumber, setStepNumber] = useState(0);
   const intervalDuration = 100;
-  let timeout = null;
+  const timeout = useRef(null);
 
   const isDirection = data[0]?.direction;
+
+  const showStep = useCallback(() => {
+    setSteps((previous) => {
+      previous[stepNumber].isVisible = 'vis';
+
+      return previous;
+    });
+
+    setStepNumber((previous) => {
+      return previous + 1;
+    });
+  }, [stepNumber]);
 
   useEffect(() => {
     if (isDirection) {
@@ -27,13 +39,13 @@ const Steps = (props) => {
 
   }, [data, isDirection]);
 
-  const runTimeout = () => {
+  const runTimeout = useCallback(() => {
     clearTimeout(timeout);
 
-    timeout = setTimeout(() => {
+    timeout.current = setTimeout(() => {
       showStep();
     }, intervalDuration);
-  };
+  }, [showStep]);
 
   useEffect(() => {
     if (directions.length > 0 &&
@@ -47,19 +59,7 @@ const Steps = (props) => {
     return () => {
       clearTimeout(timeout);
     };
-  }, [directions.length, stepNumber, timeout]);
-
-  const showStep = () => {
-    setSteps((previous) => {
-      previous[stepNumber].isVisible = 'vis';
-
-      return previous;
-    });
-
-    setStepNumber((previous) => {
-      return previous + 1;
-    });
-  };
+  }, [directions.length, stepNumber, timeout, data, runTimeout, onFinishShowSteps]);
 
   const content = steps.map((item) => {
     return <Step
