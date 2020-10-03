@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './style.css';
 
 import Field from '../field';
@@ -48,6 +48,7 @@ const Body = () => {
   const [isFinishShowSteps, setIsFinishShowSteps] = useState(false);
   const [isGameFinished, setIsGameFinished] = useState(false);
   const [isGameStarted, setIsGameStarted] = useState(false);
+  const [textButtonStart, setTextButtonStart] = useState('Start');
 
   function getRandomInt(min, max) {
     min = Math.ceil(min);
@@ -55,41 +56,11 @@ const Body = () => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  function getRandomDirection() {
+  const getRandomDirection = useCallback(() =>  {
     return getRandomInt(1, 4)
-  }
+  }, []);
 
-  const startGame = () => {
-    const positionStart = findStartPosition(fieldSize);
-
-    setPositionStart(positionStart);
-
-    const positionFinish = paveWay(positionStart);
-
-    setPositionFinish(positionFinish);
-
-    setField((prev)=>{
-      const field = [...prev];
-
-      field[positionStart.y][positionStart.x].marker = 'start';
-      field[positionFinish.y][positionFinish.x].marker = 'finish';
-
-      return field;
-    });
-
-    setIsGameStarted(true);
-  }
-
-  const restartGame = () => {
-    setIsGameFinished(() => false);
-    setIsFinishShowSteps(() => false);
-    setIsGameStarted(() => false);
-
-    setField(() => createField(fieldSize));
-    setSteps(() => createSteps(stepsNumber));
-  }
-
-  function findStartPosition(fieldSize) {
+  const findStartPosition = useCallback((fieldSize) => {
     const x = getRandomInt(0, fieldSize - 1);
     const y = getRandomInt(0, fieldSize - 1);
 
@@ -97,9 +68,9 @@ const Body = () => {
       x,
       y,
     }
-  }
+  }, []);
 
-  function paveWay(positionStart) {
+  const paveWay = useCallback((positionStart) => {
     const position = {};
 
     position.x = positionStart.x;
@@ -157,6 +128,40 @@ const Body = () => {
     }
 
     return position;
+  }, [fieldSize, getRandomDirection, stepsNumber]);
+
+  const startGame = useCallback(() => {
+    const positionStart = findStartPosition(fieldSize);
+
+    setPositionStart(positionStart);
+
+    const positionFinish = paveWay(positionStart);
+
+    setPositionFinish(positionFinish);
+
+    setField((prev)=>{
+      const field = [...prev];
+
+      field[positionStart.y][positionStart.x].marker = 'start';
+      field[positionFinish.y][positionFinish.x].marker = 'finish';
+
+      return field;
+    });
+  }, [fieldSize, findStartPosition, paveWay]);
+
+  useEffect(() => {
+    if (isGameStarted) {
+      startGame();
+    }
+  }, [isGameStarted, startGame]);
+
+  const clearGameData = () => {
+    setIsGameFinished(false);
+    setIsFinishShowSteps(false);
+    setIsGameStarted(false);
+
+    setField(createField(fieldSize));
+    setSteps(createSteps(stepsNumber));
   }
 
   function doStep(stepDirection) {
@@ -181,6 +186,9 @@ const Body = () => {
       }
 
       setIsGameFinished(true);
+      setIsGameStarted(false);
+
+      setTextButtonStart('Restart');
     }
   }
 
@@ -188,10 +196,17 @@ const Body = () => {
     setIsFinishShowSteps(true);
   }
 
+  const startGameHandler = () => {
+    if (isGameFinished) {
+      clearGameData();
+    }
+
+    setIsGameStarted(true);
+  }
+
   return (
     <div className="game-body">
-      <button onClick={startGame} disabled={isGameFinished || isGameStarted}>Start</button>
-      <button onClick={restartGame} disabled={!isGameFinished}>Restart</button>
+      <button onClick={startGameHandler} disabled={isGameStarted}>{textButtonStart}</button>
       <Field
         data={field}
         positionStart={positionStart}
